@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
+#include <regex>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <dirent.h>
 using namespace std;
+
+string repeatChar(string character, int length);
 
 const string version = "v1.0.0";
 
@@ -12,24 +15,38 @@ main()
 {
     system(("title img2ascii " + version).c_str());
 
-    system("rmdir \"img2ascii\\working\" /s /q");
+    cout << "  _            ___             _ _ \n"
+            " (_)_ __  __ _|_  )__ _ ___ __(_|_)\n"
+            " | | '  \\/ _` |/ // _` (_-</ _| | |\n"
+            " |_|_|_|_\\__, /___\\__,_/__/\\__|_|_|\n"
+            "         |___/                     " + version + "\n" + repeatChar(" ", 35) + "by o7q\n\n";
+
+    system("rmdir \"img2ascii\\working\" /s /q 2> nul");
 
     system("mkdir \"img2ascii\\working\" 2> nul");
     system("mkdir \"img2ascii\\working\\img\" 2> nul");
     system("mkdir \"img2ascii\\working\\rgb\" 2> nul");
     system("mkdir \"output\" 2> nul");
 
+    cout << " INPUT FILE\n -> ";
     string path;
     getline(cin, path);
+    string path_fix = regex_replace(path, regex("\\\""), "");
 
+    cout << "\n WIDTH RESIZE\n -> ";
     string width;
     getline(cin, width);
 
+    cout << "\n HEIGHT RESIZE\n -> ";
     string height;
     getline(cin, height);
 
+    int width_int = stoi(width);
+    int height_int = stoi(height);
+    int area = width_int * height_int;
+
     cout << "\n";
-    system(("ffmpeg.exe -i \"" + path + "\" -vf scale=" + width + ":" + height + " \"img2ascii\\working\\img\\img%d.png\"").c_str());
+    system(("ffmpeg.exe -i \"" + path_fix + "\" -vf scale=" + width + ":" + height + " \"img2ascii\\working\\img\\img%d.png\"").c_str());
 
     ofstream widthFile;
     widthFile.open("img2ascii\\working\\width");
@@ -44,10 +61,6 @@ main()
     cout << "\n";
     system("img2ascii\\img2rgb.exe");
     cout << "\n";
-
-    int width_int = stoi(width);
-    int height_int = stoi(height);
-    int area = width_int * height_int;
 
     int imgIndex = 1;
 
@@ -94,7 +107,7 @@ main()
             }
             
             string asciiChars[] = { ".", ",", "-", "_", "`", "'", "\"", "^", "*", ">", "~", "+", "?", "#", "$", "&", "%", "@" };
-            int asciiQuantize = 15;
+            int asciiQuantize = (255 / (sizeof(asciiChars) / sizeof(string))) + 1;
             int pixelAverage[128000];
             int widthIndex = 0;
             string asciiOut = "";
@@ -107,6 +120,7 @@ main()
                     widthIndex = 0;
                 }
                 widthIndex++;
+
                 pixelAverage[i] = (rs[i] + gs[i] + bs[i]) / 3;
                 asciiOut += asciiChars[pixelAverage[i] / asciiQuantize] + asciiChars[pixelAverage[i] / asciiQuantize];
             }
@@ -122,9 +136,17 @@ main()
         closedir(dir);
     }
 
-    system("rmdir \"img2ascii\\working\" /s /q");
+    system("rmdir \"img2ascii\\working\" /s /q 2> nul");
 
     cout << "\n";
     system("pause");
     return 0;
+}
+
+// repeat char function
+string repeatChar(string character, int length)
+{
+    string output;
+    for (int i = 0; i < length; i++) output += character;
+    return output;
 }
