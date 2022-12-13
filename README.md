@@ -1,7 +1,7 @@
 <img src="assets/images/banner.png">
 
 # [<b>>> Download Latest</b>](https://github.com/o7q/MediaDownloader/releases/download/v3.8.0/MediaDownloader.v3.8.0.zip)
-<h3>Welcome! img2ascii is a simple, command-line based tool that allows you to turn videos and images into ascii art.</h3>
+<h3>Welcome! img2ascii is a simple, command-line based tool that allows you to turn images and videos into ascii art.</h3>
 
 <!-- ---
 
