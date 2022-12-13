@@ -2,18 +2,20 @@ from PIL import Image
 import os
 import sys
 
-fileCount = next(os.walk("working\\img"))[2]
+version = "v1.0.0"
+
+fileCount = next(os.walk("img2ascii\\working\\img"))[2]
 
 nameIndex = 1
 for list_item in fileCount:
-    imgPath = "working\\img\\img" + str(nameIndex) + ".png"
+    imgPath = "img2ascii\\working\\img\\img" + str(nameIndex) + ".png"
 
-    widthRead = open("working\\width", "r")
+    widthRead = open("img2ascii\\working\\width", "r")
     imgWidth = widthRead.read()
     imgWidth_int = int(imgWidth)
     widthRead.close()
 
-    heightRead = open("working\\height", "r")
+    heightRead = open("img2ascii\\working\\height", "r")
     imgHeight = heightRead.read()
     imgHeight_int = int(imgHeight)
     heightRead.close()
@@ -35,7 +37,7 @@ for list_item in fileCount:
             x = 0
 
     print("Converting img" + str(nameIndex) + ".png to RGB")
-    output_file = open("working\\rgb\\img_rgb" + str(nameIndex), "w")
+    output_file = open("img2ascii\\working\\rgb\\img_rgb" + str(nameIndex), "w")
     output_file.write(rgb_str[:-1])
     output_file.close()
 

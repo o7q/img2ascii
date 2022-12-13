@@ -12,9 +12,11 @@ main()
 {
     system(("title img2ascii " + version).c_str());
 
-    system("mkdir \"working\" 2> nul");
-    system("mkdir \"working\\img\" 2> nul");
-    system("mkdir \"working\\rgb\" 2> nul");
+    system("rmdir \"img2ascii\\working\" /s /q");
+
+    system("mkdir \"img2ascii\\working\" 2> nul");
+    system("mkdir \"img2ascii\\working\\img\" 2> nul");
+    system("mkdir \"img2ascii\\working\\rgb\" 2> nul");
     system("mkdir \"output\" 2> nul");
 
     string path;
@@ -27,20 +29,20 @@ main()
     getline(cin, height);
 
     cout << "\n";
-    system(("ffmpeg.exe -i \"" + path + "\" -vf scale=" + width + ":" + height + " \"working\\img\\img%d.png\"").c_str());
+    system(("ffmpeg.exe -i \"" + path + "\" -vf scale=" + width + ":" + height + " \"img2ascii\\working\\img\\img%d.png\"").c_str());
 
     ofstream widthFile;
-    widthFile.open("working\\width");
+    widthFile.open("img2ascii\\working\\width");
     widthFile << width;
     widthFile.close();
 
     ofstream heightFile;
-    heightFile.open("working\\height");
+    heightFile.open("img2ascii\\working\\height");
     heightFile << height;
     heightFile.close();
 
     cout << "\n";
-    system("img2rgb.exe");
+    system("img2ascii\\img2rgb.exe");
     cout << "\n";
 
     int width_int = stoi(width);
@@ -49,13 +51,13 @@ main()
 
     int imgIndex = 1;
 
-    if (auto dir = opendir("working\\rgb"))
+    if (auto dir = opendir("img2ascii\\working\\rgb"))
     {
         while (auto f = readdir(dir))
         {
             if (!f->d_name || f->d_name[0] == '.') continue;
 
-            ifstream imgRGB_path("working\\rgb\\img_rgb" + to_string(imgIndex));
+            ifstream imgRGB_path("img2ascii\\working\\rgb\\img_rgb" + to_string(imgIndex));
             string line;
             string imgRGB;
             while (getline(imgRGB_path, line))
@@ -70,9 +72,9 @@ main()
 
             while (getline(rgbData, pixelRead, '|')) pixelRead_list.push_back(pixelRead);
 
-            int rs[100000] = {};
-            int gs[100000] = {};
-            int bs[100000] = {};
+            int rs[128000];
+            int gs[128000];
+            int bs[128000];
 
             int readRGB_index = 0;
 
@@ -91,14 +93,10 @@ main()
                 readRGB_index++;
             }
             
-            string asciiChars[] = {".", ",", "-", "_", "`", "'", "\"", "^", "*", ">", "~", "+", "?", "#", "$", "&", "%", "@"};
-
+            string asciiChars[] = { ".", ",", "-", "_", "`", "'", "\"", "^", "*", ">", "~", "+", "?", "#", "$", "&", "%", "@" };
             int asciiQuantize = 15;
-
-            int pixelAverage[100000] = {};
-
+            int pixelAverage[128000];
             int widthIndex = 0;
-
             string asciiOut = "";
 
             for (int i = 0; i < readRGB_index; i++)
@@ -124,7 +122,7 @@ main()
         closedir(dir);
     }
 
-    system("rmdir \"working\" /s /q");
+    system("rmdir \"img2ascii\\working\" /s /q");
 
     cout << "\n";
     system("pause");
