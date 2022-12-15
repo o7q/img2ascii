@@ -4,17 +4,15 @@
 
 <img src="assets/images/banner.png">
 
-<!-- # [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.0.0/img2ascii.v1.0.0.zip) -->
+# [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.0.0/img2ascii.v1.0.0.zip)
 <h3>Welcome! img2ascii is a simple, command-line based tool that allows you to turn images and videos into ascii art.</h3>
 
 ---
 
+Example with the video <b>Bad Apple!!</b> \
 <img src="assets/images/program.png" style="width: 80%;">
 <img src="assets/images/program2.png" style="width: 80%;">
-
----
-
-<img src="assets/images/showcase.gif" style="width: 50%;">
+<img src="assets/images/showcase.gif" style="width: 80%;">
 
 ---
 
@@ -56,14 +54,14 @@ pip install pyinstaller
 ## <b>Interface</b>
 - ### <b>img2ascii</b>
     - <b>Project Name</b> Specify a folder name for the final render
-    - <b>Input Media Path</b> Specify the input image/video to be converted to ASCII
+    - <b>Input Media Path</b> Specify the input image/video to be converted into ASCII
     - <b>Frame Size</b> Specify the width and height of the final ASCII image (example: 100x50)
-    - <b>Frame Skip Rate</b> Rate at which frames are skipped, this is basically the fps of the final render (type ! if it is not a video)
+    - <b>Frame Skip Rate</b> Rate at which frames are skipped, this is basically the fps of the final render (type ! to skip this option or if it is an image)
     - <b>ASCII Characters</b> Specify which ASCII characters you want to be included in the final ASCII image. You can choose a number or enter your own in brightness levels low to high
     - <b>ASCII Compression</b> Specify a compression amount for the final render (higher values means higher compression resulting in the final render having less ascii characters)
 - ### <b>asciiPlayer</b>
     - <b>Project Folder Path</b> Folder path to play frames from
-    - <b>Framerate</b> Playback rate of frames (does not skip frames, it framedrops instead)
+    - <b>Framerate</b> Playback rate of frames (does not skip frames, it frame drops instead)
 
 ---
 
