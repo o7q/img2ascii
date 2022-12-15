@@ -1,7 +1,3 @@
-### <b>THIS PROGRAM IS STILL IN DEVELOPMENT, IT IS VERY BUGGY IN SOME SCENARIOS</b>
-
----
-
 <img src="assets/images/banner.png">
 
 # [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.0.0/img2ascii.v1.0.0.zip)
