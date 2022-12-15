@@ -5,7 +5,7 @@
 
 ---
 
-Example with the video <b>Bad Apple!!</b> \
+Example with the video <b>[Bad Apple!!](https://www.youtube.com/watch?v=FtutLA63Cp8)</b> \
 <img src="assets/images/program.png" style="width: 80%;">
 <img src="assets/images/program2.png" style="width: 80%;">
 <img src="assets/images/showcase.gif" style="width: 80%;">
