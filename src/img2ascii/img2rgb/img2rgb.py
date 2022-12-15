@@ -2,8 +2,6 @@ from PIL import Image
 import os
 import sys
 
-version = "v1.0.0"
-
 fileCount = next(os.walk("img2ascii\\render_temp\\raw"))[2]
 
 nameIndex = 1
