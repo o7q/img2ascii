@@ -1,0 +1,3 @@
+~ v1.0.0_1
+- Update asciiPlayer to v1.0.1
+	- Fixed bug where replaying a different video would close the program
