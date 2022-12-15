@@ -27,7 +27,7 @@ int main()
     string name;
     getline(cin, name);
 
-    cout << "\n MEDIA INPUT PATH (images or videos)\n -> ";
+    cout << "\n MEDIA INPUT PATH (an image or video)\n -> ";
     string path;
     getline(cin, path);
     string path_fix = regex_replace(path, regex("\\\""), "");
@@ -36,7 +36,7 @@ int main()
     string size;
     getline(cin, size);
 
-    cout << "\n FRAME SKIP RATE (type ! to skip or if it is an image)\n -> ";
+    cout << "\n FRAME SKIP RATE (type ! to ignore or if it is an image)\n -> ";
     string fps;
     getline(cin, fps);
 

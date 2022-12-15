@@ -1,4 +1,4 @@
-### <b>THIS PROGRAM IS STILL IN DEVELOPMENT, IT HAS NOT BEEN RELEASED YET</b>
+### <b>THIS PROGRAM IS STILL IN DEVELOPMENT, IT IS VERY BUGGY IN SOME SCENARIOS</b>
 
 ---
 
@@ -7,13 +7,18 @@
 <!-- # [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.0.0/img2ascii.v1.0.0.zip) -->
 <h3>Welcome! img2ascii is a simple, command-line based tool that allows you to turn images and videos into ascii art.</h3>
 
-<!-- ---
+---
 
-<img src="assets/images/program.png"> -->
+<img src="assets/images/program.png" style="width: 80%;">
+<img src="assets/images/program2.png" style="width: 80%;">
 
 ---
 
-# Overview
+<img src="assets/images/showcase.gif" style="width: 50%;">
+
+---
+
+# Overview 
 img2ascii allows you to convert any media format into ascii art! I made this program as a challenge to see if I could convert a video into ascii basically from scratch. * FFmpeg carries a little for the first processing step.
 
 This program turns any media format into an ASCII text sequence which can be played via `asciiPlayer.exe`. \
