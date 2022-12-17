@@ -33,27 +33,6 @@ int main()
         getline(cin, path);
         path_fix = regex_replace(path, regex("\\\""), "");
 
-        // FOR LATER
-        // string stats[] =
-        // {
-        //     "stats_time",
-        //     "stats_frames",
-        //     "stats_resolution_width",
-        //     "stats_resolution_height",
-        //     "stats_framerate",
-        //     "stats_characters",
-        //     "stats_compression_user",
-        //     "stats_compression_quantize",
-        //     "stats_compression_factor",
-        // };
-        // int statsIndex = 0;
-        // while (size_t(statsIndex) < sizeof(stats) / sizeof(string))
-        // {
-        //     ifstream stats_read(path_fix + "\\stats\\" + stats[statsIndex]);
-        //     string stats_buffer((istreambuf_iterator<char>(stats_read)), istreambuf_iterator<char>());
-        //     statsIndex += 2;
-        // }
-
         cout << "\n PLAYBACK FRAMERATE\n -> ";
         string framerate;
         getline(cin, framerate);
