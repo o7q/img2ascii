@@ -13,7 +13,7 @@ int main()
     system(("title img2ascii " + version).c_str());
 
     cout << "Cleaning previous session...";
-    system("rmdir \"img2ascii\\render_temp\" /s /q 2> nul");
+    system("rmdir \"img2ascii\\convert_temp\" /s /q 2> nul");
     system("mkdir \"img2ascii\" 2> nul");
     system("cls");
 
@@ -99,43 +99,43 @@ int main()
 
     // START
 
-    // start execution timer
-    auto start = high_resolution_clock::now();   
+    // start execution stopwatch
+    auto stopwatch_start = high_resolution_clock::now();   
 
     system(("mkdir \"" + name + "\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\frames\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\stats\" 2> nul").c_str());
 
-    system("mkdir \"img2ascii\\render_temp\" 2> nul");
-    system("mkdir \"img2ascii\\render_temp\\raw\" 2> nul");
-    system("mkdir \"img2ascii\\render_temp\\rgb\" 2> nul");
+    system("mkdir \"img2ascii\\convert_temp\" 2> nul");
+    system("mkdir \"img2ascii\\convert_temp\\raw\" 2> nul");
+    system("mkdir \"img2ascii\\convert_temp\\rgb\" 2> nul");
 
     ofstream widthFile;
-    widthFile.open("img2ascii\\render_temp\\frame_width");
+    widthFile.open("img2ascii\\convert_temp\\frame_width");
     widthFile << width;
     widthFile.close();
 
     ofstream heightFile;
-    heightFile.open("img2ascii\\render_temp\\frame_height");
+    heightFile.open("img2ascii\\convert_temp\\frame_height");
     heightFile << height;
     heightFile.close();
 
     cout << "\nCONVERTING TO RAW SEQUENCE\n";
-    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " \"img2ascii\\render_temp\\raw\\frame.raw.%d.png\"").c_str());
+    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " \"img2ascii\\convert_temp\\raw\\frame.raw.%d.png\"").c_str());
 
     cout << "\nCONVERTING TO RGB SEQUENCE\n";
     system("img2ascii\\img2rgb.exe");
 
     cout << "\nCONVERTING TO ASCII SEQUENCE\n";
     int imgIndex = 1; 
-    if (auto dir = opendir("img2ascii\\render_temp\\rgb"))
+    if (auto dir = opendir("img2ascii\\convert_temp\\rgb"))
     {
         while (auto f = readdir(dir))
         {
             if (!f->d_name || f->d_name[0] == '.') continue;
 
             // load rgb frame
-            ifstream imgRGB_path("img2ascii\\render_temp\\rgb\\frame.rgb." + to_string(imgIndex) + ".txt");
+            ifstream imgRGB_path("img2ascii\\convert_temp\\rgb\\frame.rgb." + to_string(imgIndex) + ".txt");
             string line;
             string imgRGB;
             while (getline(imgRGB_path, line))
@@ -213,15 +213,15 @@ int main()
         closedir(dir);
     }
 
-    // stop execution timer
-    auto stop = high_resolution_clock::now();
+    // stop execution stopwatch
+    auto stopwatch_stop = high_resolution_clock::now();
 
     // END
 
     // process stats
     string stats[] =
     {
-        to_string((duration_cast<seconds>(stop - start)).count()), "stat_time",
+        to_string((duration_cast<seconds>(stopwatch_stop - stopwatch_start)).count()), "stat_time",
         to_string(fileFrameIndex), "stat_frames",
         to_string(width), "stat_resolution_width",
         to_string(height), "stat_resolution_height",
