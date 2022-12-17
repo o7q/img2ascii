@@ -221,15 +221,15 @@ int main()
     // process stats
     string stats[] =
     {
-        to_string((duration_cast<seconds>(stop - start)).count()), "stats_time",
-        to_string(fileFrameIndex), "stats_frames",
-        to_string(width), "stats_resolution_width",
-        to_string(height), "stats_resolution_height",
-        fps == "!" ? "Original" : fps, "stats_framerate",
-        chars, "stats_characters",
-        !asciiQuantize_str.empty() && asciiQuantize_str.find_first_not_of("0123456789") ? asciiQuantize_str : "n/a", "stats_compression_user",
-        to_string(asciiQuantize), "stats_compression_quantize",
-        to_string(chars.length()), "stats_compression_factor"
+        to_string((duration_cast<seconds>(stop - start)).count()), "stat_time",
+        to_string(fileFrameIndex), "stat_frames",
+        to_string(width), "stat_resolution_width",
+        to_string(height), "stat_resolution_height",
+        fps == "!" ? "Original" : fps, "stat_framerate",
+        chars, "stat_characters",
+        !asciiQuantize_str.empty() && asciiQuantize_str.find_first_not_of("0123456789") ? asciiQuantize_str : "n/a", "stat_compression_user",
+        to_string(asciiQuantize), "stat_compression_quantize",
+        to_string(chars.length()), "stat_compression_factor"
     };
     int statsIndex = 0;
     while (size_t(statsIndex) < sizeof(stats) / sizeof(string))
