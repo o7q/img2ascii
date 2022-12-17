@@ -1,3 +1,7 @@
-~ v1.0.0_1
+~ v1.1.0.0
+- Now displays and saves conversion stats after it finished (total time taken and total frames generated)
+- Fixed bug relating to letter strings trying to be converted to integers
+
+~ v1.0.0.1
 - Update asciiPlayer to v1.0.1
 	- Fixed bug where replaying a different video would close the program

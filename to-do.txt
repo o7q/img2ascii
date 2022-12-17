@@ -1,4 +1,1 @@
-- Add render stats
-- Add more options after rendering
-- Make projects store a config file
-- Fix crashes relating to strings trying to being converted to integers
+- Make asciiPlayer display project information before playing
