@@ -58,7 +58,7 @@ int main()
         }
 
         cout << "\n Project Loaded!"
-            // "\n - Time Taken: " + statsStore[0] + " seconds"
+         // "\n - Time Taken: " + statsStore[0] + " seconds"
             "\n - Total Frames: " + statsStore[1] +
             "\n - Resolution: " + statsStore[2] + "x" + statsStore[3] +
             "\n - Framerate: " + statsStore[4] +
