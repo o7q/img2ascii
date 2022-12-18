@@ -36,7 +36,7 @@ int main()
     string size;
     getline(cin, size);
 
-    cout << "\n FRAMERATE (type ! to use original fps or if it is an image)\n -> ";
+    cout << "\n FRAMERATE (type ! to use the original fps or if it is an image)\n -> ";
     string fps;
     getline(cin, fps);
 
