@@ -1,3 +1,6 @@
+~ v1.1.1.0
+- Fix the little rogue pixel in the icons
+
 ~ v1.1.0.0
 - Now displays and saves conversion stats after it finished (total time taken and total frames generated)
 - Fixed bug relating to letter strings trying to be converted to integers
