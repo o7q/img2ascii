@@ -6,7 +6,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const string version = "v1.1.0";
+const string version = "v1.1.1";
 
 int main()
 {
@@ -151,9 +151,7 @@ int main()
             while (getline(rgbData, pixelRead, '|')) pixelRead_list.push_back(pixelRead);
 
             // process rgb
-            int rs[128000];
-            int gs[128000];
-            int bs[128000];
+            int rgb[512000];
             int readRGB_index = 0;
             for (int i = 0; i < area; i++)
             {
@@ -163,17 +161,17 @@ int main()
                 vector<std::string> RGBRead_list;
                 while (getline(rgbData, RGBRead, ',')) RGBRead_list.push_back(RGBRead);
 
-                // import rgb values into isolated arrays
-                rs[readRGB_index] = stoi(RGBRead_list[0]);
-                gs[readRGB_index] = stoi(RGBRead_list[1]);
-                bs[readRGB_index] = stoi(RGBRead_list[2]);
+                // import rgb values into an rgb array
+                rgb[readRGB_index] = stoi(RGBRead_list[0]);
+                rgb[readRGB_index + 1] = stoi(RGBRead_list[1]);
+                rgb[readRGB_index + 2] = stoi(RGBRead_list[2]);
 
                 readRGB_index++;
             }
 
             // convert rgb pixels to ascii characters
             string asciiImage = "";
-            int pixelAverage[128000];
+            int pixelAverage[512000];
             int widthIndex = 0;
             for (int i = 0; i < readRGB_index; i++)
             {
@@ -184,7 +182,7 @@ int main()
                 }
                 widthIndex++;
 
-                pixelAverage[i] = (rs[i] + gs[i] + bs[i]) / 3;
+                pixelAverage[i] = (rgb[i] + rgb[i + 1] + rgb[i + 2]) / 3;
                 string asciiHalfPixel = asciiChars[pixelAverage[i] / asciiQuantize];
                 asciiImage += asciiHalfPixel + asciiHalfPixel;
             }

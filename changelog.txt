@@ -1,5 +1,8 @@
 ~ v1.1.1.0
+- Fix crashes relating to large images
 - Fix the little rogue pixel in the icons
+- Update asciiPlayer to v1.1.1
+	- Fix int crash issue
 
 ~ v1.1.0.0
 - Now displays and saves conversion stats after it finished (total time taken and total frames generated)
