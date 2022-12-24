@@ -162,9 +162,7 @@ int main()
                 while (getline(rgbData, RGBRead, ',')) RGBRead_list.push_back(RGBRead);
 
                 // import rgb values into an rgb array
-                rgb[readRGB_index] = stoi(RGBRead_list[0]);
-                rgb[readRGB_index + 1] = stoi(RGBRead_list[1]);
-                rgb[readRGB_index + 2] = stoi(RGBRead_list[2]);
+                for (int i = 0; i < 3; i++) rgb[readRGB_index + i] = stoi(RGBRead_list[i]);
 
                 readRGB_index++;
             }
