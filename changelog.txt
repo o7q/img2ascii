@@ -1,3 +1,9 @@
+~ v1.1.1.1
+- Update asciiPlayter to v1.1.2
+	- Fix display stats issue for small frames
+- Update img2rgb to v1.0.1
+	- Optimize variable declaration
+
 ~ v1.1.1.0
 - Fix crashes relating to large images
 - Fix the little rogue pixel in the icons
