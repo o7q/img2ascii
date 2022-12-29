@@ -62,10 +62,10 @@ pip install pyinstaller
 ---
 
 <b>img2ascii</b><img src="assets/images/icons/img2ascii.png" style="width: 3%;"> \
-Programmed with C++ and compiled using MinGW G++
+Written in C++ and compiled using MinGW G++
 
 <b>asciiPlayer</b><img src="assets/images/icons/asciiPlayer.png" style="width: 3%;"> \
-Programmed with C++ and compiled using MinGW G++
+Written in C++ and compiled using MinGW G++
 
 <b>img2rgb</b><img src="assets/images/icons/img2rgb.png" style="width: 3%;"> \
-Programmed with Python and compiled using Pyinstaller
+Written in Python and compiled using Pyinstaller
