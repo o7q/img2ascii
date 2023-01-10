@@ -1,0 +1,1 @@
+- Feature to auto sort character brightness levels
