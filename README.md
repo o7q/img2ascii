@@ -52,7 +52,7 @@ pip install pyinstaller
     - <b>Project Name</b> Specify a folder name for the final render
     - <b>Input Media Path</b> Specify the input image/video to be converted into ASCII
     - <b>Frame Size</b> Specify the width and height of the final ASCII image (example: 100x50)
-    - <b>Frame Skip Rate</b> Rate at which frames are skipped, this is basically the fps of the final render (type ! to skip this option or if it is an image)
+    - <b>Frame Rate</b> Rate at which frames are skipped, this is basically the fps of the final render (type ! to skip this option or if it is an image)
     - <b>ASCII Characters</b> Specify which ASCII characters you want to be included in the final ASCII image. You can choose a number or enter your own in brightness levels low to high
     - <b>ASCII Compression</b> Specify a compression amount for the final render (higher values means higher compression resulting in the final render having less ascii characters)
 - ### <b>asciiPlayer</b>
