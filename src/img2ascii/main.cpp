@@ -6,7 +6,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const string version = "v1.1.1";
+const string version = "v1.2.0";
 
 int main()
 {
@@ -55,7 +55,7 @@ int main()
 
     int area = width * height;
 
-    cout << "\n ASCII CHARACTERS (choose a number or enter your own in brightness levels low to high):\n"
+    cout << "\n ASCII CHARACTERS (choose a number or enter your own):\n"
             "  [1] ascii (standard ascii special characters only)\n"
             "  [2] upper (uppercase letters only)\n"
             "  [3] lower (lowercase letters only)\n"
@@ -68,6 +68,8 @@ int main()
 
     // ascii colorspace based on: https://stackoverflow.com/a/74186686
     //  `.-'":_,^=;><+!rc*\/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@
+    string chars_index = " `.-'\":_,^=;><+!rc*\\/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@";
+
     if (!chars.empty() && chars.find_first_not_of("0123456789"))
     {
         switch(stoi(chars))
@@ -77,8 +79,25 @@ int main()
             case 3: chars = "ltjfcizyespvoguakxhrdbmnwq"; break;
             case 4: chars = "rczsLTvJFiCfItluneoZYxjyaESwqkPhdVpOGbUAKXHmRDBgMNWQ"; break;
             case 5: chars = "7315269480"; break;
-            case 6: chars = " `.-'\":_,^=;><+!rc*\\/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"; break;
+            case 6: chars = chars_index; break;
         }
+    }
+    else
+    {
+        // sort custom characters from darkest to brightest
+
+        // create variables
+        vector<char> char_index_vector(chars_index.begin(), chars_index.end());
+        vector<char> chars_vector(chars.begin(), chars.end());
+        string chars_temp;
+
+        // sort characters
+        for (size_t i = 0; i < chars_index.length(); i++)
+            for(size_t t = 0; t < chars.length(); t++)
+                if (chars_vector[t] == chars_index[i])
+                    chars_temp += chars_vector[t];
+
+        chars = chars_temp;
     }
 
     // calculate ascii colorspace

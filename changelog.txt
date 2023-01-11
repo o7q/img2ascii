@@ -1,5 +1,6 @@
-~
-- Update asciiPlayter to v1.1.2
+~ v1.2.0.0
+- Now sorts custom characters automatically from darkest to brightest
+- Update asciiPlayer to v1.1.2
 	- Fix display stats issue for small frames
 - Update img2rgb to v1.0.1
 	- Optimize variable declaration
