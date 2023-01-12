@@ -91,7 +91,7 @@ int main()
         vector<char> chars_vector(chars.begin(), chars.end());
         string chars_temp;
 
-        // sort characters
+        // sort characters with jamesort™
         for (size_t i = 0; i < chars_index.length(); i++)
             for(size_t t = 0; t < chars.length(); t++)
                 if (chars_vector[t] == chars_index[i])
