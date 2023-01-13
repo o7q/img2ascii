@@ -1,2 +1,1 @@
-- Ditch Python and use `stb_image.h` instead to read in images (it would be nice but I probably won't do this)
 - Prevent user from entering 0 for playback framerate in asciiPlayer

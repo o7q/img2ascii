@@ -1,3 +1,7 @@
+~ v2.0.0.0
+- Now uses "stb_image.h" to read images instead of Python/Pillow (the program is much, much faster, img2rgb is now retired)
+- Now uses JPG instead of PNG for conversion (more efficient)
+
 ~ v1.3.0.0
 - Now removes duplicate characters when sorting
 - Improve the way information is sent between img2ascii and img2rgb

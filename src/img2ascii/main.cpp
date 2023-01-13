@@ -6,7 +6,23 @@
 using namespace std;
 using namespace std::chrono;
 
-const string version = "v1.3.0";
+const string version = "v2.0.0";
+
+// code forked from: https://cplusplus.com/forum/beginner/267364
+extern "C"
+{
+    #define STB_IMAGE_IMPLEMENTATION
+    #include "includes/stb_image.h"
+}
+bool load_frame_raw(vector<unsigned char>& image, const string& filename, int& x, int&y)
+{
+    int n;
+    unsigned char* data = stbi_load(filename.c_str(), &x, &y, &n, 3);
+    if (data != nullptr) image = vector<unsigned char>(data, data + x * y * 3);
+    stbi_image_free(data);
+    return (data != nullptr);
+}
+//
 
 int main()
 {
@@ -42,7 +58,7 @@ int main()
     // read size parameters and split them into width*height
     stringstream sizeData(size);
     string sizeRead;
-    vector<std::string> sizeRead_list;
+    vector<string> sizeRead_list;
     while (getline(sizeData, sizeRead, 'x')) sizeRead_list.push_back(sizeRead);
 
     // process width/height values
@@ -121,74 +137,64 @@ int main()
     // START
 
     // start execution stopwatch
-    auto stopwatch_start = high_resolution_clock::now();   
-
-    string data = name + "|" + to_string(width) + "|" + to_string(height);
-
-    ofstream dataFile;
-    dataFile.open("img2ascii\\_temp");
-    dataFile << data;
-    dataFile.close();
+    auto stopwatch_start = high_resolution_clock::now();   ;
 
     system(("mkdir \"" + name + "\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\_cache\" 2> nul").c_str());
-    system(("mkdir \"" + name + "\\_cache\\rgb\" 2> nul").c_str());
 
     system(("mkdir \"" + name + "\\frames\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\stats\" 2> nul").c_str());
 
     cout << "\nCONVERTING TO RAW SEQUENCE\n";
-    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " \"" + name + "\\_cache\\frame.raw.%d.png\"").c_str());
-
-    cout << "\nCONVERTING TO RGB SEQUENCE\n";
-    system("img2ascii\\img2rgb.exe");
+    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v 1 \"" + name + "\\_cache\\frame.raw.%d.jpg\"").c_str());
 
     cout << "\nCONVERTING TO ASCII SEQUENCE\n";
     int imgIndex = 1; 
-    if (auto dir = opendir((name + "\\_cache\\rgb").c_str()))
+    if (auto dir = opendir((name + "\\_cache").c_str()))
     {
         while (auto f = readdir(dir))
         {
             if (!f->d_name || f->d_name[0] == '.') continue;
-
-            // load rgb frame
-            ifstream imgRGB_path(name + "\\_cache\\rgb\\frame.rgb." + to_string(imgIndex) + ".txt");
-            string line;
-            string imgRGB;
-            while (getline(imgRGB_path, line))
+    
+            int img_x, img_y;
+            vector<unsigned char> image;
+            bool success = load_frame_raw(image, name + "\\_cache\\frame.raw." + to_string(imgIndex) + ".jpg", img_x, img_y);
+            if (!success)
             {
-                imgRGB += line;
-                imgRGB.push_back('\n');
+                cout << " Error loading frame!\n";
+                system("pause");
+                return 1;
             }
+    
+            const size_t RGB = 3;
+    
+            int x_pos = 0;
+            int y_pos = 0;
 
-            // split rgb values
-            stringstream rgbData(imgRGB);
-            string pixelRead;
-            vector<std::string> pixelRead_list;
-            while (getline(rgbData, pixelRead, '|')) pixelRead_list.push_back(pixelRead);
-
-            // process rgb
             int rgb[512000];
-            int readRGB_index = 0;
+            int rgb_index = 0;
+
             for (int i = 0; i < area; i++)
             {
-                // split individual rgb values
-                stringstream rgbData(pixelRead_list[i]);
-                string RGBRead;
-                vector<std::string> RGBRead_list;
-                while (getline(rgbData, RGBRead, '!')) RGBRead_list.push_back(RGBRead);
+                size_t index = RGB * (y_pos * img_x + x_pos);
 
-                // import rgb values into an rgb array
-                for (int t = 0; t < 3; t++) rgb[readRGB_index + t] = stoi(RGBRead_list[t]);
+                x_pos += 1;
+                if (x_pos == width)
+                {
+                    y_pos += 1;
+                    x_pos = 0;
+                }
 
-                readRGB_index++;
+                for (int j = 0; j < 3; j++) rgb[i + j] = static_cast<int>(image[index + j]);
+
+                rgb_index++;
             }
 
             // convert rgb pixels to ascii characters
             string asciiImage = "";
             int pixelAverage[512000];
             int widthIndex = 0;
-            for (int i = 0; i < readRGB_index; i++)
+            for (int i = 0; i < rgb_index; i++)
             {
                 if (widthIndex == width)
                 {
@@ -209,7 +215,8 @@ int main()
             asciiFile << asciiImage;
             asciiFile.close();
 
-            imgIndex++;
+            imgIndex++; 
+
         }
         closedir(dir);
     }
