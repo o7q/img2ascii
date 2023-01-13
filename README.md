@@ -1,6 +1,6 @@
 <img src="assets/images/banner.png">
 
-# [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.2.0.0/img2ascii.v1.2.0.0.zip)
+# [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v1.3.0.0/img2ascii.v1.3.0.0.zip)
 <h3>Welcome! img2ascii is a simple, command-line based tool that allows you to turn images and videos into ascii art.</h3>
 
 ---
