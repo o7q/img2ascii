@@ -1,0 +1,1 @@
+- Ditch Python and use `stb_image.h` instead to read in images (it would be nice but I probably won't do this)

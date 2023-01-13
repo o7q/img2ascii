@@ -1,3 +1,12 @@
+~ v1.3.0.0
+- Now removes duplicate characters when sorting
+- Improve the way information is sent between img2ascii and img2rgb
+- Improve project exporter
+- Update asciiPlayer to v1.2.0
+	- Improve project loader
+- Update img2rgb to v1.1.0
+	- Improve the way data is read and exported
+
 ~ v1.2.0.0
 - Now sorts custom characters automatically from darkest to brightest
 - Update asciiPlayer to v1.1.2
