@@ -106,9 +106,9 @@ int main()
         string chars_temp;
         // sort characters with jamesort™
         for (size_t i = 0; i < chars_index.length(); i++)
-            for(int t = 0; t < chars_length; t++)
-                if (chars_vector[t] == chars_index[i])
-                    chars_temp += chars_vector[t];
+            for(int j = 0; j < chars_length; j++)
+                if (chars_vector[j] == chars_index[i])
+                    chars_temp += chars_vector[j];
         // remove duplicate characters
         chars = "";
         vector<char> chars_sorted_vector(chars_temp.begin(), chars_temp.end());
@@ -137,28 +137,29 @@ int main()
     // START
 
     // start execution stopwatch
-    auto stopwatch_start = high_resolution_clock::now();   ;
+    auto stopwatch_start = high_resolution_clock::now();
 
     system(("mkdir \"" + name + "\" 2> nul").c_str());
-    system(("mkdir \"" + name + "\\_cache\" 2> nul").c_str());
+    system(("mkdir \"" + name + "\\_raw\" 2> nul").c_str());
 
     system(("mkdir \"" + name + "\\frames\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\stats\" 2> nul").c_str());
 
     cout << "\nCONVERTING TO RAW SEQUENCE\n";
-    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v 1 \"" + name + "\\_cache\\frame.raw.%d.jpg\"").c_str());
+    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v 1 \"" + name + "\\_raw\\frame.raw.%d.jpg\"").c_str());
 
     cout << "\nCONVERTING TO ASCII SEQUENCE\n";
     int imgIndex = 1; 
-    if (auto dir = opendir((name + "\\_cache").c_str()))
+    if (auto dir = opendir((name + "\\_raw").c_str()))
     {
         while (auto f = readdir(dir))
         {
             if (!f->d_name || f->d_name[0] == '.') continue;
     
-            int img_x, img_y;
+            // load raw frame
+            int img_width, img_height;
             vector<unsigned char> image;
-            bool success = load_frame_raw(image, name + "\\_cache\\frame.raw." + to_string(imgIndex) + ".jpg", img_x, img_y);
+            bool success = load_frame_raw(image, name + "\\_raw\\frame.raw." + to_string(imgIndex) + ".jpg", img_width, img_height);
             if (!success)
             {
                 cout << " Error loading frame!\n";
@@ -168,23 +169,25 @@ int main()
     
             const size_t RGB = 3;
     
-            int x_pos = 0;
-            int y_pos = 0;
+            int x_index = 0;
+            int y_index = 0;
 
             int rgb[512000];
             int rgb_index = 0;
 
+            // calculate the ascii character for each pixel
             for (int i = 0; i < area; i++)
             {
-                size_t index = RGB * (y_pos * img_x + x_pos);
+                size_t index = RGB * (y_index * img_width + x_index);
 
-                x_pos += 1;
-                if (x_pos == width)
+                x_index += 1;
+                if (x_index == width)
                 {
-                    y_pos += 1;
-                    x_pos = 0;
+                    y_index += 1;
+                    x_index = 0;
                 }
 
+                // load r, g, b, into rgb array
                 for (int j = 0; j < 3; j++) rgb[i + j] = static_cast<int>(image[index + j]);
 
                 rgb_index++;
@@ -238,7 +241,7 @@ int main()
 
     // END
 
-    // process stats
+    // process stats and wrap project
     string stats[] =
     {
         to_string((duration_cast<seconds>(stopwatch_stop - stopwatch_start)).count()), "stat_time",
@@ -278,7 +281,7 @@ int main()
                   "Info for this project:\n" +
                   formattedStats +
                   "\n\nWhat each file/folder does:\n"
-                  " - _cache: Stores the temporary conversion files (you can delete this if you want)\n"
+                  " - _raw: Stores the temporary raw conversion files (you can delete this if you want)\n"
                   " - frames: This is where the ASCII frames are stored, you can play them with \"asciiPlayer.exe\"\n"
                   " - stats: This stores conversion and config information for the project that is used by \"asciiPlayer.exe\"\n"
                   " - lock: Verifies that this project is genuine and will function properly with \"asciiPlayer.exe\"\n"
@@ -288,8 +291,6 @@ int main()
     // display stats
     cout << "\n Conversion Finished!\n" + formattedStats + "\n\n ";
     system("pause");
-
-    system("del \"img2ascii\\_temp\" /f 2> nul");
 
     return 0;
 }
