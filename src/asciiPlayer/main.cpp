@@ -12,7 +12,7 @@ void playFrames();
 void replayPrompt();
 string strRep(string charIn, int amount);
 
-const string version = "v1.2.0";
+const string version = "v1.2.1";
 
 bool persistent = true;
 string path_fix;
@@ -78,7 +78,7 @@ int main()
         cout << "\n PLAYBACK FRAMERATE\n -> ";
         string framerate_str;
         getline(cin, framerate_str);
-        framerate = !framerate_str.empty() && framerate_str.find_first_not_of("0123456789") ? stoi(framerate_str) : !statsStore[4].empty() && statsStore[4].find_first_not_of("0123456789") ? stoi(statsStore[4]) : 15;
+        framerate = framerate == 0 ? 15 : !framerate_str.empty() && framerate_str.find_first_not_of("0123456789") ? stoi(framerate_str) : !statsStore[4].empty() && statsStore[4].find_first_not_of("0123456789") ? stoi(statsStore[4]) : 15;
         // convert fps to chrono
         tick = float(1) / framerate;
         tick *= CLOCKS_PER_SEC;

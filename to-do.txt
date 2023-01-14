@@ -1,1 +1,0 @@
-- Prevent user from entering 0 for playback framerate in asciiPlayer

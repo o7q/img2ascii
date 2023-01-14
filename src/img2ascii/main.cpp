@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sys/stat.h>
 #include <regex>
 #include <fstream>
 #include <chrono>
@@ -26,7 +27,13 @@ bool load_frame_raw(vector<unsigned char>& image, const string& filename, int& x
 
 int main()
 {
-    system("mkdir \"img2ascii\" 2> nul");
+    struct stat scan_ffmpeg;
+    if (stat("img2ascii\\ffmpeg.exe", &scan_ffmpeg) != 0)
+    {
+        cout << "\n FFmpeg was not found! Please ensure that it's in the directory \"img2ascii\\ffmpeg.exe\"\n ";
+        system("pause");
+        _Exit(1);
+    }
 
     system(("title img2ascii " + version).c_str());
     cout << "  _            ___             _ _ \n"
@@ -44,7 +51,7 @@ int main()
     getline(cin, path);
     string path_fix = regex_replace(path, regex("\\\""), "");
     
-    cout << "\n FRAMESIZE (WIDTHxHEIGHT, example: 100x50)\n -> ";
+    cout << "\n FRAMESIZE (WIDTHxHEIGHT, example: 80x40)\n -> ";
     string size;
     getline(cin, size);
 
@@ -128,11 +135,17 @@ int main()
     for (int i = 0; i < chars_length; i++) asciiChars[i] = chars_split[i];
     int asciiQuantize = (255 / chars_length) + 1;
 
-    cout << "\n ASCII COMPRESSION (0 - 255, A value of 0 would utilize " + to_string((255 / (asciiQuantize + 0)) + 1) + " characters. A value of 25 would utilize " + to_string((255 / (asciiQuantize + 25)) + 1) + " characters.)\n -> ";
+    cout << "\n ASCII COMPRESSION (Between 0 - 255, A value of 0 would utilize " + to_string((255 / (asciiQuantize + 0)) + 1) + " characters. A value of 25 would utilize " + to_string((255 / (asciiQuantize + 25)) + 1) + " characters.)\n -> ";
     string asciiQuantize_str;
     getline(cin, asciiQuantize_str);
 
     asciiQuantize = !asciiQuantize_str.empty() && asciiQuantize_str.find_first_not_of("0123456789") ? asciiQuantize + stoi(asciiQuantize_str) : asciiQuantize + 25;
+
+    cout << "\n JPEG COMPRESSION (Between 1 - 31, A lower value means higher quality and less artifacts.)\n -> ";
+    string jpegCompression_str;
+    getline(cin, jpegCompression_str);
+
+    int jpegCompresion = !jpegCompression_str.empty() && jpegCompression_str.find_first_not_of("0123456789") ? stoi(jpegCompression_str) : 1;
 
     // START
 
@@ -141,12 +154,11 @@ int main()
 
     system(("mkdir \"" + name + "\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\_raw\" 2> nul").c_str());
-
     system(("mkdir \"" + name + "\\frames\" 2> nul").c_str());
     system(("mkdir \"" + name + "\\stats\" 2> nul").c_str());
 
     cout << "\nCONVERTING TO RAW SEQUENCE\n";
-    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v 1 \"" + name + "\\_raw\\frame.raw.%d.jpg\"").c_str());
+    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v " + to_string(jpegCompresion) + " \"" + name + "\\_raw\\frame.raw.%d.jpg\"").c_str());
 
     cout << "\nCONVERTING TO ASCII SEQUENCE\n";
     int imgIndex = 1; 
@@ -164,7 +176,7 @@ int main()
             {
                 cout << " Error loading frame!\n";
                 system("pause");
-                return 1;
+                _Exit(1);
             }
     
             const size_t RGB = 3;
@@ -212,14 +224,13 @@ int main()
             }
 
             // write ascii frame
-            cout << " Converting [frame.rgb." + to_string(imgIndex) + ".txt] to ASCII\n";
+            printf((" Converting [frame.raw." + to_string(imgIndex) + ".jpg] to ASCII\n").c_str());
             ofstream asciiFile;
             asciiFile.open(name + "\\frames\\frame.ascii." + to_string(imgIndex) + ".txt");
             asciiFile << asciiImage;
             asciiFile.close();
 
             imgIndex++; 
-
         }
         closedir(dir);
     }
