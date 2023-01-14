@@ -26,6 +26,8 @@ stb: https://github.com/nothings/stb
 
 # Usage
 
+**Note:** While using asciiPlayer, if the command window starts bugging out that means your output frames are bigger than what can be displayed with word wrap. To fix this, maximize the command window while it's playing, hold ctrl + scroll-down to zoom out, un-maximize the command window and re-maximize it, if that doesn't work then just fiddle around with it until it does. You will get the hang of it.
+
 ## <b>Interface</b>
 - ### <b>img2ascii</b>
     - <b>Project Name</b> Specify a folder name for the final render

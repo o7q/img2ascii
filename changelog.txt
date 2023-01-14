@@ -1,3 +1,8 @@
+~ v2.1.0.0
+- Now shows conversion status in the title
+- Fixed bug where pixels on the left would leak into the pixels on the right
+- Optimized code
+
 ~ v2.0.0.1
 - Update asciiPlayer to v1.2.2
 	- Fixed bug that made the framerate always play at 15

@@ -7,7 +7,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const string version = "v2.0.0";
+const string version = "v2.1.0";
 
 // code forked from: https://cplusplus.com/forum/beginner/267364
 extern "C"
@@ -149,6 +149,8 @@ int main()
 
     // START
 
+    system(("title img2ascii " + version + "   [CONVERTING]").c_str());
+
     // start execution stopwatch
     auto stopwatch_start = high_resolution_clock::now();
 
@@ -185,42 +187,40 @@ int main()
             int y_index = 0;
 
             int rgb[512000];
-            int rgb_index = 0;
 
-            // calculate the ascii character for each pixel
+            string asciiImage = "";
+            int pixelAverage[512000];
+            int widthIndex = 0;
+
+            // convert jpeg to ascii
             for (int i = 0; i < area; i++)
             {
-                size_t index = RGB * (y_index * img_width + x_index);
-
-                x_index += 1;
+                // calculate rgb value for each pixel
                 if (x_index == width)
                 {
-                    y_index += 1;
                     x_index = 0;
+                    y_index += 1;
                 }
+
+                size_t index = RGB * (y_index * img_width + x_index);
 
                 // load r, g, b, into rgb array
                 for (int j = 0; j < 3; j++) rgb[i + j] = static_cast<int>(image[index + j]);
 
-                rgb_index++;
-            }
+                x_index += 1;
 
-            // convert rgb pixels to ascii characters
-            string asciiImage = "";
-            int pixelAverage[512000];
-            int widthIndex = 0;
-            for (int i = 0; i < rgb_index; i++)
-            {
+                // convert rgb to ascii
                 if (widthIndex == width)
                 {
-                    asciiImage += "\n";
                     widthIndex = 0;
+                    asciiImage += "\n";
                 }
-                widthIndex++;
 
                 pixelAverage[i] = (rgb[i] + rgb[i + 1] + rgb[i + 2]) / 3;
                 string asciiHalfPixel = asciiChars[pixelAverage[i] / asciiQuantize];
                 asciiImage += asciiHalfPixel + asciiHalfPixel;
+
+                widthIndex++;
             }
 
             // write ascii frame
@@ -235,20 +235,10 @@ int main()
         closedir(dir);
     }
 
-    int fileFrameIndex = 0;
-    if (auto dir = opendir((name + "\\frames").c_str()))
-    {
-        while (auto f = readdir(dir))
-        {
-            if (!f->d_name || f->d_name[0] == '.') continue;
-
-            fileFrameIndex++;
-        }
-        closedir(dir);
-    }
-
     // stop execution stopwatch
     auto stopwatch_stop = high_resolution_clock::now();
+
+    system(("title img2ascii " + version + "   [DONE]").c_str());
 
     // END
 
@@ -256,7 +246,7 @@ int main()
     string stats[] =
     {
         to_string((duration_cast<seconds>(stopwatch_stop - stopwatch_start)).count()), "stat_time",
-        to_string(fileFrameIndex), "stat_frames",
+        to_string(imgIndex - 1), "stat_frames",
         to_string(width), "stat_resolution_width",
         to_string(height), "stat_resolution_height",
         fps == "!" ? "Original" : fps, "stat_framerate",
