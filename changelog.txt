@@ -1,3 +1,7 @@
+~ v2.0.0.1
+- Update asciiPlayer to v1.2.2
+	- Fixed bug that made the framerate always play at 15
+
 ~ v2.0.0.0
 - Overhaul the image processor (explained below)
 - Now uses "stb_image.h" to read images instead of Python/Pillow (the program is much, much faster, img2rgb is now retired)
