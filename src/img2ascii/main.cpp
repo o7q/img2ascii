@@ -181,13 +181,13 @@ int main()
                 _Exit(1);
             }
     
+            // rgb vars
             const size_t RGB = 3;
-    
             int x_index = 0;
             int y_index = 0;
-
             int rgb[512000];
 
+            // ascii vars
             string asciiImage = "";
             int pixelAverage[512000];
             int widthIndex = 0;
@@ -196,7 +196,6 @@ int main()
             for (int i = 0; i < area; i++)
             {
                 // calculate rgb value for each pixel
-
                 // calculate y break
                 if (x_index == width)
                 {
@@ -211,8 +210,7 @@ int main()
 
                 x_index += 1;
 
-                // convert rgb to ascii
-
+                // calculate ascii pixel from rgb value
                 // calculate y break
                 if (widthIndex == width)
                 {
