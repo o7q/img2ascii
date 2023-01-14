@@ -196,6 +196,8 @@ int main()
             for (int i = 0; i < area; i++)
             {
                 // calculate rgb value for each pixel
+
+                // calculate y break
                 if (x_index == width)
                 {
                     x_index = 0;
@@ -210,12 +212,15 @@ int main()
                 x_index += 1;
 
                 // convert rgb to ascii
+
+                // calculate y break
                 if (widthIndex == width)
                 {
                     widthIndex = 0;
                     asciiImage += "\n";
                 }
 
+                // calculate pixel
                 pixelAverage[i] = (rgb[i] + rgb[i + 1] + rgb[i + 2]) / 3;
                 string asciiHalfPixel = asciiChars[pixelAverage[i] / asciiQuantize];
                 asciiImage += asciiHalfPixel + asciiHalfPixel;
