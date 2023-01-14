@@ -1,2 +1,0 @@
-### NOTE
-A lot of antiviruses flag my `img2rgb` module, it is a precompiled python executable. It does not contain any viruses but if you are being safe you can compile it yourself. Check `README.md` file for more info.
