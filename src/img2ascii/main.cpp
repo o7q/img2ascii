@@ -7,13 +7,13 @@
 using namespace std;
 using namespace std::chrono;
 
-const string version = "v2.1.0";
+const string version = "v2.1.1";
 
 // code forked from: https://cplusplus.com/forum/beginner/267364
 extern "C"
 {
     #define STB_IMAGE_IMPLEMENTATION
-    #include "includes/stb_image.h"
+    #include "includes/stb_image/stb_image.h"
 }
 bool load_frame_raw(vector<unsigned char>& image, const string& filename, int& x, int&y)
 {
@@ -145,7 +145,7 @@ int main()
     string jpegCompression_str;
     getline(cin, jpegCompression_str);
 
-    int jpegCompresion = !jpegCompression_str.empty() && jpegCompression_str.find_first_not_of("0123456789") ? stoi(jpegCompression_str) : 1;
+    int jpegCompression = !jpegCompression_str.empty() && jpegCompression_str.find_first_not_of("0123456789") ? stoi(jpegCompression_str) : 1;
 
     // START
 
@@ -160,10 +160,10 @@ int main()
     system(("mkdir \"" + name + "\\stats\" 2> nul").c_str());
 
     cout << "\nCONVERTING TO RAW SEQUENCE\n";
-    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v " + to_string(jpegCompresion) + " \"" + name + "\\_raw\\frame.raw.%d.jpg\"").c_str());
+    system(("img2ascii\\ffmpeg.exe -loglevel verbose -i \"" + path_fix + "\" -vf scale=" + to_string(width) + ":" + to_string(height) + fps_controller + " -q:v " + to_string(jpegCompression) + " \"" + name + "\\_raw\\frame.raw.%d.jpg\"").c_str());
 
     cout << "\nCONVERTING TO ASCII SEQUENCE\n";
-    int imgIndex = 1; 
+    int frameIndex = 1; 
     if (auto dir = opendir((name + "\\_raw").c_str()))
     {
         while (auto f = readdir(dir))
@@ -172,8 +172,8 @@ int main()
     
             // load raw frame
             int img_width, img_height;
-            vector<unsigned char> image;
-            bool success = load_frame_raw(image, name + "\\_raw\\frame.raw." + to_string(imgIndex) + ".jpg", img_width, img_height);
+            vector<unsigned char> img;
+            bool success = load_frame_raw(img, name + "\\_raw\\frame.raw." + to_string(frameIndex) + ".jpg", img_width, img_height);
             if (!success)
             {
                 cout << " Error loading frame!\n";
@@ -181,59 +181,39 @@ int main()
                 _Exit(1);
             }
     
-            // rgb vars
+            int x_pos = 0;
+            int y_pos = 0;
             const size_t RGB = 3;
-            int x_index = 0;
-            int y_index = 0;
-            int rgb[512000];
-
-            // ascii vars
             string asciiImage = "";
-            int pixelAverage[512000];
-            int widthIndex = 0;
 
             // convert jpeg to ascii
             for (int i = 0; i < area; i++)
             {
                 // calculate rgb value for each pixel
-                // calculate y break
-                if (x_index == width)
+                if (x_pos == width)
                 {
-                    x_index = 0;
-                    y_index += 1;
-                }
-
-                size_t index = RGB * (y_index * img_width + x_index);
-
-                // load r, g, b, into rgb array
-                for (int j = 0; j < 3; j++) rgb[i + j] = static_cast<int>(image[index + j]);
-
-                x_index += 1;
-
-                // calculate ascii pixel from rgb value
-                // calculate y break
-                if (widthIndex == width)
-                {
-                    widthIndex = 0;
+                    x_pos = 0;
+                    y_pos++;
                     asciiImage += "\n";
                 }
 
-                // calculate pixel
-                pixelAverage[i] = (rgb[i] + rgb[i + 1] + rgb[i + 2]) / 3;
-                string asciiHalfPixel = asciiChars[pixelAverage[i] / asciiQuantize];
-                asciiImage += asciiHalfPixel + asciiHalfPixel;
+                // calculate ascii pixel from rgb value
+                int pixelAverage = 0;
+                size_t pixelIndex = RGB * (y_pos * img_width + x_pos);
+                for (int j = 0; j < 3; j++) pixelAverage += static_cast<int>(img[pixelIndex + j]);
+                for (int j = 0; j < 2; j++) asciiImage += asciiChars[(pixelAverage / 3) / asciiQuantize];
 
-                widthIndex++;
+                x_pos++;
             }
 
             // write ascii frame
-            printf((" Converting [frame.raw." + to_string(imgIndex) + ".jpg] to ASCII\n").c_str());
+            printf((" Converting [frame.raw." + to_string(frameIndex) + ".jpg] to ASCII\n").c_str());
             ofstream asciiFile;
-            asciiFile.open(name + "\\frames\\frame.ascii." + to_string(imgIndex) + ".txt");
+            asciiFile.open(name + "\\frames\\frame.ascii." + to_string(frameIndex) + ".txt");
             asciiFile << asciiImage;
             asciiFile.close();
 
-            imgIndex++; 
+            frameIndex++; 
         }
         closedir(dir);
     }
@@ -249,7 +229,7 @@ int main()
     string stats[] =
     {
         to_string((duration_cast<seconds>(stopwatch_stop - stopwatch_start)).count()), "stat_time",
-        to_string(imgIndex - 1), "stat_frames",
+        to_string(frameIndex - 1), "stat_frames",
         to_string(width), "stat_resolution_width",
         to_string(height), "stat_resolution_height",
         fps == "!" ? "Original" : fps, "stat_framerate",

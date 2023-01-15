@@ -1,3 +1,6 @@
+~ v2.1.1.0
+- Greatly optimize the code (no size/overflow limit for images, completely revamped the conversion system)
+
 ~ v2.1.0.0
 - Now shows conversion status in the title
 - Fixed bug where pixels on the left would leak into the pixels on the right
