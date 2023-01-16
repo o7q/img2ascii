@@ -1,5 +1,9 @@
-~ v2.1.1.0
+~ v2.2.0.0
+- Improved time system
+- Improved display stats
 - Greatly optimize the code (no size/overflow limit for images, completely revamped the conversion system)
+- Update asciiPlayer to v1.2.3
+	- Now displays JPEG Compression
 
 ~ v2.1.0.0
 - Now shows conversion status in the title

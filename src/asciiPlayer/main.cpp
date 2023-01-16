@@ -12,7 +12,7 @@ void playFrames();
 void replayPrompt();
 string strRep(string charIn, int amount);
 
-const string version = "v1.2.2";
+const string version = "v1.2.3";
 
 bool persistent = true;
 string path_fix;
@@ -26,7 +26,8 @@ string stats[] =
     "characters",
     "compression_user",
     "compression_quantize",
-    "compression_factor"
+    "compression_factor",
+    "compression_jpeg"
 };
 string statsStore[sizeof(stats) / sizeof(string)];
 int framerate;
@@ -72,7 +73,8 @@ int main()
             "\n - Resolution: " + statsStore[2] + "x" + statsStore[3] +
             "\n - Framerate: " + statsStore[4] +
             "\n - Characters: " + statsStore[5] +
-            "\n - Compression: " + statsStore[6] + " (quantize: " + statsStore[7] + ", factor: " + statsStore[8] + ")";
+            "\n - Compression: " + statsStore[6] + " (quantize: " + statsStore[7] + ", factor: " + statsStore[8] + ")" +
+            "\n - JPEG Compression: " + statsStore[9];
         cout << "\n";
 
         cout << "\n PLAYBACK FRAMERATE\n -> ";
