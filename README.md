@@ -1,5 +1,5 @@
 # This repository is no longer maintained.
-This was one of my C++ applications I made in order to learn C++. I never plan to update it.
+**This was one of my C++ applications I made in order to learn C++. I never plan to update it.**
 
 <img src="assets/images/banner.png">
 
