@@ -1,3 +1,6 @@
+# This repository is no longer maintained.
+This was one of my C++ applications I made in order to learn C++. I never plan to update it.
+
 <img src="assets/images/banner.png">
 
 # [<b>>> Download Latest</b>](https://github.com/o7q/img2ascii/releases/download/v2.1.0.0/img2ascii.v2.1.0.0.zip)
